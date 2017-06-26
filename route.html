@@ -1,0 +1,53 @@
+<!doctype>
+<html>
+<head>
+    <title>Find a route</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css"> 
+    <link rel="stylesheet" href="css/styles.css"> 
+
+</head>
+<body>
+<div id="routes" class="container">
+    <div class="top_wrapper">
+        <h1>Find a Route</h1>
+        <img src="img/img_route1.jpg" class="img-responsive" alt="">
+    </div>
+    
+    <div class="map_wrapper">
+        <div id="map"></div>
+    </div>
+</div>
+<script>
+function initMap() {
+    var directionsService = new google.maps.DirectionsService;
+    var directionsDisplay = new google.maps.DirectionsRenderer;
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 7,
+      center: {lat: 41.85, lng: -87.65}
+    });
+    directionsDisplay.setMap(map);
+
+    calculateAndDisplayRoute(directionsService, directionsDisplay);
+
+}
+
+function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+    directionsService.route({
+      origin: localStorage.getItem('displayStart'),
+      destination: localStorage.getItem('displayEnd'),
+      travelMode: 'DRIVING'
+    }, function(response, status) {
+      if (status === 'OK') {
+        directionsDisplay.setDirections(response);
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+}
+</script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJmWZkOUddF5K_r__4fOcPcNQcheid1Sw&callback=initMap">
+</script>
+</body>
+</html>
